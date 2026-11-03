@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Programming Roadmap</title>
+
+<style>
+:root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card2: #263449;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --primary: #818cf8;
+    --green: #34d399;
+    --border: #334155;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 30px 16px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 950px;
+    margin: auto;
+}
+
+header { margin-bottom: 28px; }
+
+h1 { margin-bottom: 8px; }
+
+.subtitle { color: var(--muted); }
+
+.summary, .level {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.stat {
+    background: var(--card2);
+    padding: 16px;
+    border-radius: 10px;
+}
+
+.stat strong {
+    display: block;
+    font-size: 26px;
+    margin-top: 8px;
+}
+
+.progress-track {
+    background: #334155;
+    height: 9px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.progress-fill {
+    background: var(--green);
+    height: 100%;
+    width: 0%;
+    transition: width .3s;
+}
+
+.level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.level h2 { margin: 0; }
+
+.level-description {
+    color: var(--muted);
+    margin: 10px 0;
+}
+
+.problem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border-top: 1px solid var(--border);
+}
+
+.problem input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--green);
+    cursor: pointer;
+}
+
+.problem-info { flex: 1; }
+
+.problem a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.problem a:hover { color: var(--primary); }
+
+.problem small {
+    color: var(--muted);
+    display: block;
+    margin-top: 4px;
+}
+
+.problem.done .problem-info {
+    opacity: .55;
+    text-decoration: line-through;
+}
+
+.level-progress {
+    color: var(--green);
+    font-weight: bold;
+}
+
+button {
+    background: var(--card2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+button:hover { background: #334155; }
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 15px 0;
+}
+
+footer {
+    color: var(--muted);
+    text-align: center;
+    padding: 20px;
+}
+
+@media(max-width: 600px) {
+    .summary { grid-template-columns: 1fr; }
+    body { padding: 18px 10px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+    <h1>Dynamic Programming Roadmap</h1>
+    <p class="subtitle">
+        Master DP step by step through LeetCode.
+        Track your learning progress.
+    </p>
+</header>
+
+<section class="summary">
+    <div class="stat">
+        Total Problems
+        <strong id="total">30</strong>
+    </div>
+    <div class="stat">
+        Completed
+        <strong id="completed">0</strong>
+    </div>
+    <div class="stat">
+        Overall Progress
+        <strong id="percentage">0%</strong>
+    </div>
+</section>
+
+<div class="progress-track">
+    <div class="progress-fill" id="overallBar"></div>
+</div>
+
+<div class="actions">
+    <button onclick="resetProgress()">Reset All Progress</button>
+</div>
+
+<div id="roadmap"></div>
+
+<footer>
+    Keep practicing. Understand the state and transition before writing code.
+</footer>
+</div>
+
+<script>
+const levels = [
+{
+    title: "Level 1 — DP Fundamentals",
+    description: "Learn 1D DP, recursion, memoization and tabulation.",
+    problems: [
+        [509, "Fibonacci Number", "Easy"],
+        [70, "Climbing Stairs", "Easy"],
+        [746, "Min Cost Climbing Stairs", "Easy"],
+        [1137, "N-th Tribonacci Number", "Easy"],
+        [198, "House Robber", "Medium"],
+        [213, "House Robber II", "Medium"],
+        [740, "Delete and Earn", "Medium"]
+    ]
+},
+{
+    title: "Level 2 — Grid DP",
+    description: "Learn 2D states and transitions between grid cells.",
+    problems: [
+        [62, "Unique Paths", "Medium"],
+        [63, "Unique Paths II", "Medium"],
+        [64, "Minimum Path Sum", "Medium"],
+        [120, "Triangle", "Medium"],
+        [931, "Minimum Falling Path Sum", "Medium"]
+    ]
+},
+{
+    title: "Level 3 — Knapsack DP",
+    description: "Understand choices, subsets and optimization.",
+    problems: [
+        [416, "Partition Equal Subset Sum", "Medium"],
+        [322, "Coin Change", "Medium"],
+        [518, "Coin Change II", "Medium"],
+        [377, "Combination Sum IV", "Medium"],
+        [494, "Target Sum", "Medium"]
+    ]
+},
+{
+    title: "Level 4 — String DP",
+    description: "Practice DP on strings, subsequences and matching.",
+    problems: [
+        [139, "Word Break", "Medium"],
+        [5, "Longest Palindromic Substring", "Medium"],
+        [647, "Palindromic Substrings", "Medium"],
+        [516, "Longest Palindromic Subsequence", "Medium"],
+        [1143, "Longest Common Subsequence", "Medium"],
+        [72, "Edit Distance", "Medium"],
+        [583, "Delete Operation for Two Strings", "Medium"],
+        [97, "Interleaving String", "Medium"]
+    ]
+},
+{
+    title: "Level 5 — Advanced DP",
+    description: "Solve more complex optimization and DP patterns.",
+    problems: [
+        [300, "Longest Increasing Subsequence", "Medium"],
+        [673, "Number of Longest Increasing Subsequence", "Medium"],
+        [1043, "Partition Array for Maximum Sum", "Medium"],
+        [1235, "Maximum Profit in Job Scheduling", "Hard"],
+        [10, "Regular Expression Matching", "Hard"],
+        [2430, "Maximum Deletions on a String", "Hard"]
+    ]
+}
+];
+
+const STORAGE_KEY = "dp-roadmap-progress";
+
+let completed = JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || "[]"
+);
+
+const totalProblems = levels.reduce(
+    (sum, level) => sum + level.problems.length, 0
+);
+
+document.getElementById("total").textContent = totalProblems;
+
+function renderRoadmap() {
+    const container = document.getElementById("roadmap");
+    container.innerHTML = "";
+
+    levels.forEach((level, index) => {
+        const levelIds = level.problems.map(p => p[0]);
+        const doneCount = levelIds.filter(
+            id => completed.includes(id)
+        ).length;
+
+        const percent = Math.round(
+            doneCount / level.problems.length * 100
+        );
+
+        const section = document.createElement("section");
+        section.className = "level";
+
+        section.innerHTML = `
+            <div class="level-header">
+                <h2>${level.title}</h2>
+                <span class="level-progress">
+                    ${doneCount}/${level.problems.length} Completed
+                </span>
+            </div>
+
+            <p class="level-description">${level.description}</p>
+
+            <div class="progress-track">
+                <div class="progress-fill" style="width:${percent}%"></div>
+            </div>
+
+            <div class="problems"></div>
+        `;
+
+        const problemsContainer = section.querySelector(".problems");
+
+        level.problems.forEach(([id, name, difficulty]) => {
+            const isDone = completed.includes(id);
+
+            const item = document.createElement("div");
+            item.className = `problem ${isDone ? "done" : ""}`;
+
+            item.innerHTML = `
+                <input type="checkbox"
+                    ${isDone ? "checked" : ""}
+                    aria-label="Mark ${name} as completed">
+
+                <div class="problem-info">
+                    <a href="https://leetcode.com/problems/${getSlug(name)}/"
+                       target="_blank" rel="noopener noreferrer">
+                       #${id} — ${name}
+                    </a>
+                    <small>${difficulty}</small>
+                </div>
+            `;
+
+            item.querySelector("input").addEventListener(
+                "change", event => {
+                    toggleProblem(id, event.target.checked);
+                }
+            );
+
+            problemsContainer.appendChild(item);
+        });
+
+        container.appendChild(section);
+    });
+
+    updateSummary();
+}
+
+function getSlug(name) {
+    return name
+        .toLowerCase()
+        .replace(/[^a-z0-9 ]/g, "")
+        .trim()
+        .replace(/\s+/g, "-");
+}
+
+function toggleProblem(id, isDone) {
+    if (isDone && !completed.includes(id)) {
+        completed.push(id);
+    } else {
+        completed = completed.filter(x => x !== id);
+    }
+
+    saveProgress();
+    renderRoadmap();
+}
+
+function updateSummary() {
+    const count = completed.length;
+    const percent = Math.round(count / totalProblems * 100);
+
+    document.getElementById("completed").textContent = count;
+    document.getElementById("percentage").textContent = percent + "%";
+    document.getElementById("overallBar").style.width = percent + "%";
+}
+
+function saveProgress() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+}
+
+function resetProgress() {
+    if (!confirm("Are you sure you want to reset all progress?"))
+        return;
+
+    completed = [];
+    saveProgress();
+    renderRoadmap();
+}
+
+renderRoadmap();
+</script>
+</body>
+</html>
